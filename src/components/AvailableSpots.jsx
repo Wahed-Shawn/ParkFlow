@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Car, EvCharger, Van } from "lucide-react";
 
-const AvailableSpots = ({available}) => {
+const AvailableSpots = ({ currentAvailable, totalSlots }) => {
     return (
         <div className='h-full bg-white rounded-xl relative '>
             {/* <h1 className='text-[10px]'>Available Parking Spots</h1> */}
@@ -12,7 +12,7 @@ const AvailableSpots = ({available}) => {
                         <div className="flex justify-center items-center h-[2.5rem] w-[2.5rem] rounded-sm text-[#4F46E5] bg-[#E0E7FF]"><Car /></div>
                         <p>Compact</p>
                     </div>
-                    <p><span className="text-xl text-[#4F46E5]">{available.c}</span></p>
+                    <p><span className="text-xl text-[#4F46E5]">{currentAvailable.c}</span>/<span className="text-[#94A3B8]">{totalSlots.c}</span></p>
                 </div>
 
                 <div className="bg-[#ECFDF5] rounded-sm flex justify-between items-center p-3">
@@ -20,7 +20,7 @@ const AvailableSpots = ({available}) => {
                         <div className="flex justify-center items-center h-[2.5rem] w-[2.5rem] rounded-sm text-[#059669] bg-[#D1FAE5] "><Van /></div>
                         <p>Large</p>
                     </div>
-                    <p><span className="text-xl text-[#059669]">{available.l}</span></p>
+                    <p><span className="text-xl text-[#059669]">{currentAvailable.l}</span>/<span className="text-[#94A3B8]">{totalSlots.l}</span></p>
                 </div>
 
                 <div className="bg-[#FFFBEB] rounded-sm flex justify-between items-center p-3">
@@ -28,7 +28,7 @@ const AvailableSpots = ({available}) => {
                         <div className="flex justify-center items-center h-[2.5rem] w-[2.5rem] rounded-sm text-[#D97706] bg-[#FEF3C7]"><EvCharger /></div>
                         <p>EV</p>
                     </div>
-                    <p><span className="text-xl text-[#D97706]">{available.e}</span></p>
+                    <p><span className="text-xl text-[#D97706]">{currentAvailable.e}</span>/<span className="text-[#94A3B8]">{totalSlots.e}</span></p>
                 </div>
             </div>
         </div>

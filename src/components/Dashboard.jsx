@@ -120,17 +120,18 @@ const Dashboard = () => {
         e: 1
     })
 
-    const [totalSlots] = useState({
-        c: 4,
-        l: 3,
-        e: 3,
-    });
+    const totalSlots = {
+        c: available.c + vehicles.reduce((s, v) => s + v.allocation.c, 0),
+        l: available.l + vehicles.reduce((s, v) => s + v.allocation.l, 0),
+        e: available.e + vehicles.reduce((s, v) => s + v.allocation.e, 0),
+    };
+
 
     const [availableHistory, setAvailableHistory] = useState({});
+    const [currentAvailable, setCurrentAvailable] = useState(available);
 
 
     const handleRun = () => {
-        // Reset everything
         setVehicles((prev) =>
             prev.map((v) => ({
                 ...v,
@@ -140,6 +141,7 @@ const Dashboard = () => {
 
         setDisplaySequence([]);
         setAvailableHistory({});
+        setCurrentAvailable(available);
 
         const output = bankersAlgorithm(vehicles, available);
         setResult(output);
@@ -156,16 +158,12 @@ const Dashboard = () => {
 
         output.safeSequence.forEach((processName, index) => {
             setTimeout(() => {
-                // Animate safe sequence
                 setDisplaySequence((prev) => [...prev, processName]);
-
-                // Update Available Resources
                 setAvailableHistory((prev) => ({
                     ...prev,
                     [processName]: output.iterations[index].available,
                 }));
 
-                // Mark Running
                 setVehicles((prev) =>
                     prev.map((vehicle) =>
                         vehicle.name === processName
@@ -174,7 +172,6 @@ const Dashboard = () => {
                     )
                 );
 
-                // Mark Finished after 1 second
                 setTimeout(() => {
                     setVehicles((prev) =>
                         prev.map((vehicle) =>
@@ -183,7 +180,9 @@ const Dashboard = () => {
                                 : vehicle
                         )
                     );
+
                 }, 1000);
+                setCurrentAvailable(output.iterations[index].available);
 
             }, index * 1500);
         });
@@ -194,7 +193,7 @@ const Dashboard = () => {
         <div className="pt-[2.5rem] pb-2 grid grid-cols-12 grid-rows-12 h-full px-2">
             <div className="col-span-3 row-span-12 flex flex-col justify-between">
                 <div className="h-[38%]">
-                    <AvailableSpots available={available} />
+                    <AvailableSpots currentAvailable={currentAvailable} totalSlots={totalSlots} />
                 </div>
 
                 <div className="h-[60%]">
@@ -207,7 +206,7 @@ const Dashboard = () => {
 
             <div className="col-span-6 row-span-12 flex flex-col justify-between">
                 <div className="h-[50%] px-3">
-                    <ParkingLot available={available} totalSlots={totalSlots} />
+                    <ParkingLot currentAvailable={currentAvailable} totalSlots={totalSlots} />
                 </div>
 
                 <div className="h-[50%] p-3">

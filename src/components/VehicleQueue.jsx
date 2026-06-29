@@ -27,14 +27,6 @@ const VehicleQueue = ({ vehicles, setVehicles }) => {
 
     const handleConfigure = (vehicle) => {
         setSelectedVehicle(vehicle);
-
-        // Load previously saved values
-        // setForm({
-        //     compact: vehicle.max.c,
-        //     large: vehicle.max.l,
-        //     ev: vehicle.max.e,
-        // });
-
         setOpen(true);
     };
 

@@ -1,10 +1,13 @@
 import { CarFront, SquareParking } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-const ParkingLot = ({ available, totalSlots }) => {
+const ParkingLot = ({ currentAvailable, totalSlots }) => {
 
     const slots = [];
 
     const createSlots = (type, total, free) => {
+        free = Math.max(0, Math.min(free, total)); // Clamp
+
         const occupied = total - free;
 
         for (let i = 0; i < occupied; i++) {
@@ -22,18 +25,21 @@ const ParkingLot = ({ available, totalSlots }) => {
         }
     };
 
-    createSlots("C", totalSlots.c, available.c);
-    createSlots("L", totalSlots.l, available.l);
-    createSlots("E", totalSlots.e, available.e);
+    createSlots("C", totalSlots.c, currentAvailable.c);
+    createSlots("L", totalSlots.l, currentAvailable.l);
+    createSlots("E", totalSlots.e, currentAvailable.e);
 
     return (
-        <div className="h-full bg-[#5C6C7B] rounded-xl border shadow-sm p-5 text-white">
+        <div className="h-full bg-[#5C6C7B] rounded-xl border shadow-sm p-5 text-white relative">
 
-            <h2 className="text-xl font-bold text-center mb-5">
+            <Badge
+                variant="default"
+                className="absolute -rotate-90 top-1/2 -translate-x-16"
+            >
                 Parking Lot
-            </h2>
+            </Badge>
 
-            <div className="grid grid-cols-5 gap-4">
+            <div className="grid grid-cols-5 gap-4 overflow-scroll scrollbar-thin scrollbar-thumb-transparent">
 
                 {slots.map((slot, index) => (
                     <div
@@ -69,7 +75,7 @@ const ParkingLot = ({ available, totalSlots }) => {
 
             </div>
 
-            <div className="flex justify-center gap-8 mt-6 text-sm">
+            {/* <div className="flex justify-center gap-8 mt-6 text-sm">
 
                 <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded bg-green-400"></div>
@@ -81,7 +87,7 @@ const ParkingLot = ({ available, totalSlots }) => {
                     Occupied
                 </div>
 
-            </div>
+            </div> */}
 
         </div>
     );
