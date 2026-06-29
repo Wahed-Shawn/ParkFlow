@@ -115,15 +115,16 @@ const Dashboard = () => {
     ]);
 
     const [available] = useState({
-        c: 1,
+        c: 2,
         l: 1,
-        e: 1
+        e: 2
     })
 
+
     const totalSlots = {
-        c: available.c + vehicles.reduce((s, v) => s + v.allocation.c, 0),
-        l: available.l + vehicles.reduce((s, v) => s + v.allocation.l, 0),
-        e: available.e + vehicles.reduce((s, v) => s + v.allocation.e, 0),
+        c: 4,   
+        l: 4,   
+        e: 5,  
     };
 
 
